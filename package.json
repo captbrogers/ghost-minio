@@ -1,0 +1,66 @@
+{
+  "name": "ghost-minio",
+  "version": "0.1.0",
+  "description": "Store and proxy requests for Ghost's images on Minio.",
+  "keywords": [
+    "ghost",
+    "minio",
+    "s3",
+    "storage",
+    "plugin",
+    "blog"
+  ],
+  "engines": {
+    "node": ">= 8.9"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Brian Rogers",
+    "email": "captbrogers@protonmail.ch",
+    "url": "https://ditoforge.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/captbrogers/ghost-minio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/captbrogers/ghost-minio/issues"
+  },
+  "homepage": "https://github.com/captbrogers/ghost-minio",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel ./src/index.js --out-file ./index.js",
+    "prepublish": "npm run build",
+    "semantic-release": "semantic-release",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "ghost-storage-base": "0.0.3",
+    "minio": "^7.0.11"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  },
+  "babel": {
+    "plugins": [
+      "transform-object-rest-spread",
+      "add-module-exports"
+    ],
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "8.9"
+          },
+          "exclude": [
+            "transform-es2015-classes"
+          ]
+        }
+      ]
+    ]
+  }
+}

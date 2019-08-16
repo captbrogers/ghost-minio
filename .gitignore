@@ -1,0 +1,37 @@
+###### Project Specific Files
+# ignore the build output index.js file, not the source one
+index.js
+!src/index.js
+
+# logs and temp files
+*.log
+*.bak
+
+###### Project Specific Directories
+node_modules/
+
+###### Editor Specific Files
+
+
+###### Editor Specific Directories
+.idea/
+.vscode/
+
+###### System Specific Files
+## Linux
+*.swp
+
+## macOS
+.DS_Store
+
+## Windows
+Thumbs.db
+
+###### System Specific Directories
+## Linux
+
+## macOS
+__MACOSX/
+
+## Windows
+
