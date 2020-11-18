@@ -20,7 +20,17 @@ class Store extends StorageBase {
 
     this.endpoint = process.env.storage__minio__endPoint || endpoint || ''
     this.port = process.env.storage__minio__port+'' || port+'' || ''
-    this.useSSL = new Boolean(process.env.storage__minio__useSSL).valueOf() || new Boolean(useSSL).valueOf() || false
+
+    if(process.env.storage__minio__useSSL && ['0', 'false'].includes(process.env.storage__minio__useSSL)){
+      this.useSSL = false
+    }else if(process.env.storage__minio__useSSL && ['1', 'true'].includes(process.env.storage__minio__useSSL)){
+      this.useSSL = true
+    }else if (process.env.storage__minio__useSSL){
+      throw new Error(`Invalid value ${process.env.storage__minio__useSSL} for useSSL`)
+    }else{
+      this.useSSL = useSSL || false
+    }
+        
     this.accessKey = process.env.storage__minio__accessKey || accessKey || ''
     this.secretKey = process.env.storage__minio__secretKey || secretKey || ''
     this.bucket = process.env.storage__minio__bucket || bucket || ''
@@ -33,7 +43,7 @@ class Store extends StorageBase {
     let urlPort = ''
     if (!isNaN(this.port)) {
       let parsedPort = Number.parseInt(this.port)
-      if (port != 80 && port != 443) {
+      if (parsedPort != 80 && parsedPort != 443) {
         urlPort = ':' + this.port
       }
     }
@@ -57,7 +67,7 @@ class Store extends StorageBase {
     if (!isNaN(this.port)) {
       let port = Number.parseInt(this.port)
       if (port != 80 && port != 443) {
-        configs.port = this.port
+        configs.port = port
       }
     }
 
