@@ -1,5 +1,5 @@
 import StorageBase from 'ghost-storage-base'
-import { join } from 'path'
+import path, { join } from 'path'
 import { readFile } from 'fs'
 const Minio = require('minio')
 const sanitizeFilename = require('sanitize-filename')
@@ -114,13 +114,14 @@ class Store extends StorageBase {
         readFileAsync(fileObject.path)
       ]).then(([ fileStream, file ]) => {
         this.getUniqueFileName(fileObject, directory).then((fileName) => {
+          let fileParse  = path.parse(fileName)
           _self.minioClient()
             .putObject(_self.bucket, fileName, fileStream, fileObject.size, (err, etag) => {
               if (err) {
                 reject(err)
               }
 
-              let objectUrl = _self.baseUrl + '/' + _self.bucket + '/' + encodeURIComponent(fileName)
+              let objectUrl = _self.baseUrl + '/' + _self.bucket + '/' +fileParse.dir+'/'+encodeURIComponent(fileParse.name)
               resolve(objectUrl)
             })
         }).catch(err => reject(err))
