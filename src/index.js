@@ -90,9 +90,9 @@ class Store extends StorageBase {
       this.minioClient()
         .statObject(_self.bucket, join(directory, fileName), (err, stat) => {
           if (err) {
-            reject(err)
+            resolve(false)
           }
-          resolve(stat)
+          resolve(true)
         })
     })
   }
@@ -108,21 +108,22 @@ class Store extends StorageBase {
   save(fileObject, targetDir) {
     const directory = targetDir || this.getTargetDir(this.pathPrefix)
     let _self = this
-
+   
     return new Promise((resolve, reject) => {
       Promise.all([
         readFileAsync(fileObject.path)
       ]).then(([ fileStream, file ]) => {
-        let fileName = join(directory, fileObject.originalname)
-        _self.minioClient()
-          .putObject(_self.bucket, fileName, fileStream, fileObject.size, (err, etag) => {
-            if (err) {
-              reject(err)
-            }
+        this.getUniqueFileName(fileObject, directory).then((fileName) => {
+          _self.minioClient()
+            .putObject(_self.bucket, fileName, fileStream, fileObject.size, (err, etag) => {
+              if (err) {
+                reject(err)
+              }
 
-            let objectUrl = _self.baseUrl + '/' + _self.bucket + '/' + fileName
-            resolve(objectUrl)
-          })
+              let objectUrl = _self.baseUrl + '/' + _self.bucket + '/' + fileName
+              resolve(objectUrl)
+            })
+        }).catch(err => reject(err))
       })
       .catch(err => reject(err))
     })
