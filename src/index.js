@@ -1,7 +1,8 @@
 import StorageBase from 'ghost-storage-base'
 import { join } from 'path'
 import { readFile } from 'fs'
-const moment = require('moment')
+const moment = require('moment'),
+    path = require('path')
 const Minio = require('minio')
 const sanitizeFilename = require('sanitize-filename')
 const readFileAsync = fp => new Promise((resolve, reject) => readFile(fp, (err, data) => err ? reject(err) : resolve(data)))
