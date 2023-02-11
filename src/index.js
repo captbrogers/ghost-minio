@@ -219,6 +219,18 @@ class Store extends StorageBase {
       // unicode filenames like город.zip would therefore resolve to ----.zip
       return sanitizeFilename(fileName, { replacement: '_' })
   }
+  getTargetDir(baseDir) {
+    const date = moment(),
+        day = date.format('DD'),
+        month = date.format('MM'),
+        year = date.format('YYYY');
+
+    if (baseDir) {
+        return path.join(baseDir,day, year, month);
+    }
+
+    return path.join(day,year, month);
+}
 }
 
 export default Store
