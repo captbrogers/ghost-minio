@@ -121,7 +121,7 @@ class Store extends StorageBase {
                 reject(err)
               }
 
-              let objectUrl = _self.baseUrl + '/' + _self.bucket + '/' +fileParse.dir+'/'+encodeURIComponent(fileParse.name)
+              let objectUrl = _self.baseUrl + '/' + _self.bucket + '/' +fileParse.dir+'/'+encodeURIComponent(fileParse.base)
               resolve(objectUrl)
             })
         }).catch(err => reject(err))
