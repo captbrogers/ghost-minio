@@ -2,7 +2,7 @@ import StorageBase from 'ghost-storage-base'
 import { join } from 'path'
 import { readFile } from 'fs'
 const Minio = require('minio')
-
+const sanitizeFilename = require('sanitize-filename')
 const readFileAsync = fp => new Promise((resolve, reject) => readFile(fp, (err, data) => err ? reject(err) : resolve(data)))
 
 class Store extends StorageBase {
@@ -212,6 +212,12 @@ class Store extends StorageBase {
           })
         })
     })
+  }
+
+  getSanitizedFileName(fileName) {
+      // below only matches ascii characters, @, and .
+      // unicode filenames like город.zip would therefore resolve to ----.zip
+      return sanitizeFilename(fileName, { replacement: '_' })
   }
 }
 

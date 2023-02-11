@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "ghost-storage-base": "0.0.3",
-    "minio": "^7.0.12"
+    "minio": "^7.0.12",
+    "sanitize-filename": "^1.6.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
